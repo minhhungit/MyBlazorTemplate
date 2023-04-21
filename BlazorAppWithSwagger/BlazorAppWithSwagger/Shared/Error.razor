@@ -1,0 +1,23 @@
+﻿@using Microsoft.Extensions.Logging
+@using StackExchange.Exceptional;
+@using Microsoft.AspNetCore.Http
+
+@inject ILogger<Error> Logger
+@inject IHttpContextAccessor httpContextAccessor
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    public void ProcessError(Exception ex)
+    {
+        ex.LogAsync(httpContextAccessor.HttpContext);
+
+        Logger.LogError("Error:ProcessError - Type: {Type} Message: {Message}",
+            ex.GetType(), ex.Message);
+    }
+}
