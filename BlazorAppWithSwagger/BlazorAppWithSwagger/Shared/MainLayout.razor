@@ -1,5 +1,38 @@
 ﻿@inherits LayoutComponentBase
 
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Color="Color.Primary" Fixed="false" Dense="true">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <MudBlazorNavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        <CustomErrorBoundary @ref="errorBoundary">
+            @Body
+        </CustomErrorBoundary>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = true;
+    private MudTheme _theme = new();
+    private bool _isDarkMode;
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
+
+
+@*
 <PageTitle>BlazorAppWithSwagger</PageTitle>
 
 <div class="page">
@@ -16,17 +49,17 @@
             <CustomErrorBoundary @ref="errorBoundary">
                 @Body
             </CustomErrorBoundary>
-            @*<ErrorBoundary @ref="errorBoundary">
+            @{/*<ErrorBoundary @ref="errorBoundary">
                 <ChildContent>
                     @Body
                 </ChildContent>
                 <ErrorContent>
                     <p class="errorUI">Getting error please contact to admin or try again later !</p>
                 </ErrorContent>
-            </ErrorBoundary>*@
+            </ErrorBoundary>*/}
         </article>
     </main>
-</div>
+</div>*@
 
 @code {
     private ErrorBoundary? errorBoundary;
